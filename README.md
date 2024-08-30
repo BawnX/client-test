@@ -8,7 +8,7 @@ This project consists of a full-stack application with a SQL database, Angular f
 - [ ] Ensure sufficient data for pagination in exercise 3
 - [ ] Generate SQL scripts for table creation and data insertion
 
-## 2. Frontend (Angular 10+)
+## 2. Frontend (Angular 18)
 
 - [ ] Develop an Angular application to display "Clients" table data
 - [ ] Include country of origin in the client data display
