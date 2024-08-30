@@ -3,7 +3,7 @@ CREATE TABLE "countries" (
   "name" varchar(30) NOT NULL,
   "code" varchar(5) UNIQUE NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
-  "updated_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE INDEX idx_countries_name ON "countries" ("name");

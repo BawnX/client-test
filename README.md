@@ -7,6 +7,7 @@ This project consists of a full-stack application with a SQL database, Angular f
 - [x] Create a relational SQL database with at least 2 tables
 - [x] Ensure sufficient data for pagination in exercise 3
 - [x] Generate SQL scripts for table creation and data insertion
+- [x] Create Docker Compose
 
 ## 2. Frontend (Angular 18)
 
