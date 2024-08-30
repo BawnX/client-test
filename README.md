@@ -11,8 +11,8 @@ This project consists of a full-stack application with a SQL database, Angular f
 
 ## 2. Frontend (Angular 18)
 
-- [ ] Develop an Angular application to display "Clients" table data
-- [ ] Include country of origin in the client data display
+- [x] Develop an Angular application to display "Clients" table data
+- [x] Include country of origin in the client data display
 - [ ] Implement communication with a service to fetch data
 - [ ] Create a custom pipe to format phone numbers as: +569 1234 5678
 

@@ -1,0 +1,18 @@
+<div class="tabs-container">
+  <div class="tabs">
+    @for(tab of tabs; track tab.title; let i = $index){
+    <button class="tab-button" [class.active]="activeTab === i" (click)="setActiveTab(i)">
+      {{ tab.title }}
+    </button>
+    }
+  </div>
+  <div class="tab-content">
+    @for(tab of tabs; track tab.title; let i = $index){
+    <div class="tab-pane" [class.active]="activeTab === i">
+      @if(tab.type === "table"){
+      <table-component [columns]="tab.data.columns" [tableData]="tab.data.tableData"></table-component>
+      }
+    </div>
+    }
+  </div>
+</div>

@@ -1,19 +1,22 @@
-[data-theme="light"] {
-  --text: #0d0d0d;
-  --background: #fcfcfc;
-  --primary: #21b53e;
-  --secondary: #01abc3;
-  --accent: #dbba00;
-}
-
-[data-theme="dark"] {
-  --text: #f2f2f2;
-  --background: #030303;
-  --primary: #4ade68;
-  --secondary: #3ee8fe;
-  --accent: #ffde24;
+:root {
+  --text: hsl(0, 0%, 95%);
+  --background: hsl(0, 0%, 1%);
+  --primary: hsl(132, 69%, 58%);
+  --secondary: hsl(187, 99%, 62%);
+  --accent: hsl(21, 100%, 38%);
 }
 
 body {
+  font-family: 'PT Sans', system-ui;
+  font-weight: 400;
   background-color: var(--background);
+  color: var(--text);
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+button {
+  color: var(--text);
 }

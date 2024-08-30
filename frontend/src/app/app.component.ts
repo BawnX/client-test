@@ -1,34 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TableComponent, TableData } from './commons/components/table/table.component';
+import { TableData } from './commons/components/table/table.component';
+import { TabData, TabsComponent } from './commons/components/tabs/tabs.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TableComponent],
+  imports: [RouterOutlet, TabsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'frontend';
-  currentTheme: string = 'light';
-
-  ngOnInit() {
-    this.detectColorScheme();
-  }
-
-  detectColorScheme() {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      this.currentTheme = 'dark';
-    } else {
-      this.currentTheme = 'light';
-    }
-
-    // Optional: Listen for changes in color scheme preference
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-      this.currentTheme = e.matches ? 'dark' : 'light';
-    });
-  }
 
   tableData: TableData[] = [
     { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
@@ -53,4 +36,23 @@ export class AppComponent implements OnInit{
   ];
 
   columns: string[] = ['id', 'name', 'email', 'role'];
+
+  tabsData: TabData[] = [
+    {
+      title: 'Store Prodecure',
+      type: 'table',
+      data: {
+        columns: this.columns,
+        tableData: this.tableData
+      }
+    },
+    {
+      title: 'Linq',
+      type: 'table',
+      data: {
+        columns: this.columns,
+        tableData: this.tableData.splice(0,1)
+      }
+    }
+  ]
 }
