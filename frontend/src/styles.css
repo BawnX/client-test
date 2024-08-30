@@ -1,0 +1,19 @@
+[data-theme="light"] {
+  --text: #0d0d0d;
+  --background: #fcfcfc;
+  --primary: #21b53e;
+  --secondary: #01abc3;
+  --accent: #dbba00;
+}
+
+[data-theme="dark"] {
+  --text: #f2f2f2;
+  --background: #030303;
+  --primary: #4ade68;
+  --secondary: #3ee8fe;
+  --accent: #ffde24;
+}
+
+body {
+  background-color: var(--background);
+}

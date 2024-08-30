@@ -1,0 +1,46 @@
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.material-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  font-family: 'Roboto', sans-serif;
+}
+
+.material-table th,
+.material-table td {
+  text-align: left;
+  padding: 16px;
+}
+
+.material-table th {
+  background-color: #f5f5f5;
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+}
+
+.material-table td {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 0.875rem;
+}
+
+.material-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+@media screen and (max-width: 600px) {
+
+  .material-table th,
+  .material-table td {
+    padding: 12px 8px;
+  }
+}

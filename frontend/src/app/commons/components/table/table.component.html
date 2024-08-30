@@ -1,0 +1,26 @@
+<div class="table-container">
+  <table class="material-table">
+    <thead>
+      <tr>
+        @for(col of columns; track col){
+        <th>{{ col }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for(row of paginatedData; track row.id){
+      <tr>
+        @for(col of columns; track col){
+        <td>{{ row[col] }}</td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+</div>
