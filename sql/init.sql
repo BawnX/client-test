@@ -58,30 +58,53 @@ CREATE OR REPLACE FUNCTION get_client_info(
     p_page_size INTEGER
 )
 RETURNS TABLE (
-    id  bigint,
+    id bigint,
     createdAt timestamptz,
     fullName VARCHAR,
     phoneNumber VARCHAR,
-    countryName VARCHAR
+    countryName VARCHAR,
+    totalPages INTEGER,
+    currentPage INTEGER
 ) AS $$
+DECLARE
+    total_records INTEGER;
 BEGIN
+    -- Get total number of records
+    SELECT COUNT(*) INTO total_records FROM clients;
+
     RETURN QUERY
+    WITH client_data AS (
+        SELECT
+            c.id,
+            c.created_at::timestamptz AS createdAt,
+            (c.name || ' ' || c.last_name)::VARCHAR as fullname,
+            (SELECT STRING_AGG(
+                CONCAT(
+                    co.code, ' ',
+                    SUBSTRING(p.number, 1, 4), ' ',
+                    SUBSTRING(p.number, 5, 4)
+                ),
+                '; '
+            ) FROM phones p WHERE p.client_id = c.id)::VARCHAR as phonenumber,
+            co.name::VARCHAR as countryname
+        FROM
+            clients c
+        JOIN
+            countries co ON c.country_id = co.id
+        ORDER BY
+            c.id
+        LIMIT p_page_size
+        OFFSET (p_page - 1) * p_page_size
+    )
     SELECT
-      (ROW_NUMBER() OVER (ORDER BY c.id))::bigint AS id,
-      c.created_at::timestamptz AS createdAt,
-      (c.name || ' ' || c.last_name)::VARCHAR as fullname,
-      (co.code || p.number)::VARCHAR as phonenumber,
-      co.name::VARCHAR as countryname
-    FROM
-        clients c
-    JOIN
-        countries co ON c.country_id = co.id
-    LEFT JOIN
-        phones p ON c.id = p.client_id
-    ORDER BY
-        c.id
-    LIMIT p_page_size
-    OFFSET (p_page - 1) * p_page_size;
+        (ROW_NUMBER() OVER (ORDER BY cd.id))::bigint AS id,
+        cd.createdAt,
+        cd.fullname,
+        cd.phonenumber,
+        cd.countryname,
+        CEIL(total_records::float / p_page_size)::INTEGER AS totalPages,
+        p_page AS currentPage
+    FROM client_data cd;
 END;
 $$ LANGUAGE plpgsql;
 

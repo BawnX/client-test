@@ -14,9 +14,9 @@ public class ClientStoreRepository : IClientRepositoryStore
   {
     _context = context ?? throw new ArgumentNullException(nameof(context));
   }
-  public async Task<ICollection<ClientDtoStore>> GetPagination(int page, int pageSize)
+  public async Task<ICollection<ClientStore>> GetPagination(int page, int pageSize)
   {
-    var result = await _context.Set<ClientDtoStore>().FromSqlInterpolated($@"SELECT * FROM get_client_info({page}, {pageSize})")
+    var result = await _context.Set<ClientStore>().FromSqlInterpolated($@"SELECT * FROM get_client_info({page}, {pageSize})")
      .ToListAsync();
 
     return result;

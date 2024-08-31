@@ -12,6 +12,12 @@ public class ClientLinqRepository : IClientRepositoryLinq
   {
     _context = context ?? throw new ArgumentNullException(nameof(context));
   }
+
+  public async Task<int> Count()
+  {
+    return await _context.Clients.CountAsync();
+  }
+
   public async Task<ICollection<Client>> GetPagination(int page, int pageSize) => await _context.Clients
   .OrderBy(c => c.Id)
   .Skip((page - 1) * pageSize)

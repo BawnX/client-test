@@ -4,7 +4,7 @@ using Domain.Primitives;
 
 namespace Domain.Models;
 
-public sealed class ClientDtoLinq : AggregateRoot
+public sealed class ClientLinq : AggregateRoot
 {
   public string FullName { get; set; } = string.Empty;
   public DateTime CreatedAt { get; set; }

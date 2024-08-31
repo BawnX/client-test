@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configuration;
 
-public class ClientDtoStoreConfiguration : IEntityTypeConfiguration<ClientDtoStore>
+public class ClientDtoStoreConfiguration : IEntityTypeConfiguration<ClientStore>
 {
-  public void Configure(EntityTypeBuilder<ClientDtoStore> builder)
+  public void Configure(EntityTypeBuilder<ClientStore> builder)
   {
     builder.ToFunction("get_client_info");
 
@@ -27,5 +27,11 @@ public class ClientDtoStoreConfiguration : IEntityTypeConfiguration<ClientDtoSto
 
     builder.Property(c => c.CreatedAt)
         .HasColumnName("createdAt");
+
+    builder.Property(c => c.CurrentPage)
+        .HasColumnName("currentPage");
+
+    builder.Property(c => c.TotalPages)
+        .HasColumnName("totalPages");
   }
 }

@@ -13,14 +13,14 @@ This project consists of a full-stack application with a SQL database, Angular f
 
 - [x] Develop an Angular application to display "Clients" table data
 - [x] Include country of origin in the client data display
-- [ ] Implement communication with a service to fetch data
-- [ ] Create a custom pipe to format phone numbers as: +569 1234 5678
+- [x] Implement communication with a service to fetch data
+- [x] Create a custom pipe to format phone numbers as: +569 1234 5678
 
 ## 3. Backend (C# .NET)
 
-- [ ] Develop a C# API with two services for paginated client and country data
-- [ ] Implement the first service using a Stored Procedure
-- [ ] Implement the second service using Entity Framework Core (LINQ)
+- [x] Develop a C# API with two services for paginated client and country data
+- [x] Implement the first service using a Stored Procedure
+- [x] Implement the second service using Entity Framework Core (LINQ)
 
 ## 4. Testing
 

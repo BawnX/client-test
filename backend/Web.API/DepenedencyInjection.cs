@@ -12,6 +12,7 @@ public static class DepedencyInjection
       {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
       });
+    services.AddCors();
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
     services.AddTransient<GlobalExceptionHandlingMiddleware>();
