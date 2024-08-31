@@ -29,8 +29,8 @@ This project consists of a full-stack application with a SQL database, Angular f
 
 ## 5. Source Code Management
 
-- [ ] Create a repository on GitHub, GitLab, or Bitbucket
-- [ ] Push all source code and SQL scripts to the repository
+- [x] Create a repository on GitHub, GitLab, or Bitbucket
+- [x] Push all source code and SQL scripts to the repository
 
 ## Additional Notes
 

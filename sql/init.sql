@@ -16,7 +16,7 @@ CREATE TABLE "clients" (
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now()),
   CONSTRAINT fk_country
-    FOREIGN KEY ("country_id") 
+    FOREIGN KEY ("country_id")
     REFERENCES "countries" ("id")
     ON DELETE RESTRICT
 );
@@ -32,11 +32,11 @@ CREATE TABLE "phones" (
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now()),
   CONSTRAINT fk_country
-    FOREIGN KEY ("country_id") 
+    FOREIGN KEY ("country_id")
     REFERENCES "countries" ("id")
     ON DELETE RESTRICT,
   CONSTRAINT fk_client
-    FOREIGN KEY ("client_id") 
+    FOREIGN KEY ("client_id")
     REFERENCES "clients" ("id")
     ON DELETE CASCADE
 );
@@ -52,16 +52,49 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
+
+CREATE OR REPLACE FUNCTION get_client_info(
+    p_page INTEGER,
+    p_page_size INTEGER
+)
+RETURNS TABLE (
+    id  bigint,
+    createdAt timestamptz,
+    fullName VARCHAR,
+    phoneNumber VARCHAR,
+    countryName VARCHAR
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+      (ROW_NUMBER() OVER (ORDER BY c.id))::bigint AS id,
+      c.created_at::timestamptz AS createdAt,
+      (c.name || ' ' || c.last_name)::VARCHAR as fullname,
+      (co.code || p.number)::VARCHAR as phonenumber,
+      co.name::VARCHAR as countryname
+    FROM
+        clients c
+    JOIN
+        countries co ON c.country_id = co.id
+    LEFT JOIN
+        phones p ON c.id = p.client_id
+    ORDER BY
+        c.id
+    LIMIT p_page_size
+    OFFSET (p_page - 1) * p_page_size;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE TRIGGER update_countries_updated_at BEFORE UPDATE
-ON "countries" FOR EACH ROW EXECUTE PROCEDURE 
+ON "countries" FOR EACH ROW EXECUTE PROCEDURE
 update_updated_at_column();
 
 CREATE TRIGGER update_clients_updated_at BEFORE UPDATE
-ON "clients" FOR EACH ROW EXECUTE PROCEDURE 
+ON "clients" FOR EACH ROW EXECUTE PROCEDURE
 update_updated_at_column();
 
 CREATE TRIGGER update_phones_updated_at BEFORE UPDATE
-ON "phones" FOR EACH ROW EXECUTE PROCEDURE 
+ON "phones" FOR EACH ROW EXECUTE PROCEDURE
 update_updated_at_column();
 
 INSERT INTO countries (name, code) VALUES
@@ -109,7 +142,7 @@ INSERT INTO phones (number, country_id, client_id) VALUES
 ('22334455', 2, 10),
 ('33445566', 3, 11),
 ('44556677', 4, 12),
-('66778899', 5, 13),
+('66718899', 5, 13),
 ('77889900', 6, 14),
 ('98765432', 7, 15),
 ('23456789', 8, 16),
@@ -121,9 +154,9 @@ INSERT INTO phones (number, country_id, client_id) VALUES
 ('88776655', 6, 2),
 ('99887766', 7, 3),
 ('34567890', 8, 4),
-('12345678', 1, 5),
-('23456789', 2, 6),
-('34567890', 3, 7),
+('12325678', 1, 5),
+('23416789', 2, 6),
+('34537890', 3, 7),
 ('45678901', 4, 8),
-('88776655', 5, 9),
-('99887766', 6, 10);
+('88716655', 5, 9),
+('99887266', 6, 10);

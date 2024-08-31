@@ -1,9 +1,8 @@
 services:
   db:
     image: postgres:13
-    container_name: database
     environment:
-      POSTGRES_DB: mydb
+      POSTGRES_DB: postgres
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
     ports:
@@ -11,6 +10,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   frontend:
     build:
       context: ./frontend
@@ -21,8 +28,25 @@ services:
       - ./src:/app/src
     environment:
       - NODE_ENV=development
+    depends_on:
+      - backend
     networks:
       - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
 volumes:
   postgres_data:
 
