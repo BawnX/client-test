@@ -10,7 +10,7 @@
     @for(tab of tabs; track tab.title; let i = $index){
     <div class="tab-pane" [class.active]="activeTab === i">
       @if(tab.type === "table"){
-      <table-component [columns]="tab.data.columns" [tableData]="tab.data.tableData"></table-component>
+      <table-component [data]="tab.data"></table-component>
       }
     </div>
     }

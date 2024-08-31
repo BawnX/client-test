@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 export interface TableData {
   id: number;
@@ -14,36 +15,44 @@ export interface TableData {
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
-  @Input() columns: string[] = [];
-  @Input() tableData: any[] = [];
+  @Input() data: (currentPage: number, pageSize: number) => any = ()=>{};
 
-  paginatedData: any[] = [];
+  columns: string[] = [];
+  tableData: any[] = [];
   currentPage: number = 1;
   pageSize: number = 10; // Adjust as needed
-  totalPages: number = this.tableData.length / this.pageSize;
+  totalPages: number = 0;
 
   ngOnInit() {
-    this.updatePaginatedData();
+    this.loadData()
   }
 
-  updatePaginatedData() {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.paginatedData = this.tableData.slice(startIndex, endIndex);
-    this.totalPages = Math.ceil(this.tableData.length / this.pageSize);
+  loadData(){
+    this.data(this.currentPage, this.pageSize)
+    .subscribe({
+      next: (result: any) => {
+        if(result){
+          this.tableData = result.dataTable
+          this.columns = result.columns
+          this.currentPage = result.currentPage
+          this.totalPages = result.totalPages
+        }
+      },
+      error: (error: any) => console.log(error)
+    })
   }
 
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updatePaginatedData();
+      this.loadData()
     }
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updatePaginatedData();
+      this.loadData()
     }
   }
 }

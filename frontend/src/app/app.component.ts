@@ -1,7 +1,8 @@
 import { Component} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TableData } from './commons/components/table/table.component';
 import { TabData, TabsComponent } from './commons/components/tabs/tabs.component';
+import { LinqAdapter } from './clients/adapters/linq.adapter';
+import { StoreAdapter } from './clients/adapters/store.adapter';
 
 @Component({
   selector: 'app-root',
@@ -12,47 +13,24 @@ import { TabData, TabsComponent } from './commons/components/tabs/tabs.component
 })
 export class AppComponent {
   title = 'frontend';
+  linqAdapter: LinqAdapter;
+  storeAdapter: StoreAdapter;
 
-  tableData: TableData[] = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
-    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'User' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager' },
-  ];
-
-  columns: string[] = ['id', 'name', 'email', 'role'];
+  constructor(linqAdapter: LinqAdapter, storeAdapter: StoreAdapter){
+    this.linqAdapter = linqAdapter
+    this.storeAdapter = storeAdapter
+  }
 
   tabsData: TabData[] = [
     {
       title: 'Store Prodecure',
       type: 'table',
-      data: {
-        columns: this.columns,
-        tableData: this.tableData
-      }
+      data: (currentPage: number, pageSize: number) => this.storeAdapter.adapter(currentPage, pageSize)
     },
     {
       title: 'Linq',
       type: 'table',
-      data: {
-        columns: this.columns,
-        tableData: this.tableData.splice(0,1)
-      }
+      data: (currentPage: number, pageSize: number) => this.linqAdapter.adapter(currentPage, pageSize)
     }
   ]
 }
